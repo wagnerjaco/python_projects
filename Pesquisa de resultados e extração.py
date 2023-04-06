@@ -1,5 +1,4 @@
 
-# Seleniun principal biblioteca para roda ro projeto, abrinu chrome em segundo plano encontrar os elementos e estrair as informações 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,11 +6,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-# pandas, openpyxl, matplotlib blibliotecas respondavel pelas planilhas tratar os dados e e contruir os graficos 
 import pandas as pd
 import openpyxl
 from matplotlib import pyplot as plt
-# calendar, datatime, blibliotecas responsaveis para tratar as data e condições de tempo 
 import calendar
 from datetime import timedelta
 from datetime import datetime, timedelta
@@ -20,7 +17,7 @@ import os
 
 # defino o nome do arquivo na mesma pasta do codigo 
 file_path = ("Conjunto de jogos.xlsx")
-#verificação se ele existe caso não ele cria
+#verificação se ele existe caso não, ele cria
 if not os.path.exists (file_path):
     inni_jogos =  {}
     conju_jogos = pd.DataFrame(inni_jogos)
@@ -49,7 +46,7 @@ while dia <= fim:
         except TimeoutException:
             print("Timed out waiting for page to load")
             navegador.quit()
-        #variavel que armazena a lista de pesquisa 
+        
         resultados = []
         # condição de repetição para ler todos os XPath  na pesquisa
         for i in range(1,9): 
@@ -68,9 +65,9 @@ while dia <= fim:
           '//*[@id="tsuid_27"]/span/div/div/div/div/div[2]/div/div[1]/div/div[1]/div/div[3]/span[3]', 
           '//*[@id="tsuid_27"]/span/div/div/div/div/div[2]/div/div[1]/div/div[1]/div/div[3]/span[4]', 
           '//*[@id="tsuid_27"]/span/div/div/div/div/div[2]/div/div[1]/div/div[1]/div/div[3]/span[5]',]
-            # variavel que vai receber os dados extraidos 
+            
             results0 = []
-        #condição de repetição para procurar cada elemento e adiconar a lista
+        
         for xpath in xpaths:
             try:
                 element = WebDriverWait(navegador, 10).until(
@@ -78,7 +75,7 @@ while dia <= fim:
                 results0.append(element.text)
             except TimeoutException:
                  print(f'element not found: {xpath}')
-        #printe dos resultado para acomapanahar
+        #printe dos resultado para acompanhar
         print(results0)
         # criação da planilha com os dados e concactenação com a planilha base
         jogos = (results0 )
@@ -90,11 +87,11 @@ while dia <= fim:
         
         #verificação de seguincia da condição de pesquisado da data inicial a para a data final
         results[dia.strftime("%d/%m/%Y")] = resultados
-        #fecha o navegadaor acada fim de pesquisa
+        
         navegador.quit()
-    #salta para o proximo dia de pesquisa
+    
     dia += timedelta(days=1)
-#le a pnlinha e altera o nome da primera coluna  para "numeros"
+#le a planilha e altera o nome da primera coluna  para "numeros"
 lidos = pd.read_excel("Conjunto de jogos.xlsx")
 lidos.columns =["numeros"]
 lidos.to_excel("Conjunto de jogos.xlsx",index=False)
@@ -126,7 +123,7 @@ plt.title("Números mais repetidos na coluna 1")
 # Salvando o gráfico como imagem
 plt.savefig("grafico.png")
 
-# Abrindo a planilha do Excel
+# Abrindo a planilha
 wb = openpyxl.load_workbook("resultado_frequentes.xlsx")
 
 # Selecionando a aba que deseja adicionar o gráfico
